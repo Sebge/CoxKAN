@@ -214,7 +214,7 @@ def categorical_fun(inputs, outputs, category_map):
     # Check that all inputs are in the category map
     unique_inputs = [round(i.item(), 3) for i in inputs.unique()]
     for inpt in unique_inputs:
-        assert inpt in category_map.keys()
+        assert inpt in [round(cat,3) for cat in category_map.keys()], f"Input {inpt} not found in category map."
 
     # Create a mapping from input to output
     mapping = {}
@@ -241,7 +241,7 @@ def categorical_fun(inputs, outputs, category_map):
         conditions = []
         for i in unique_inputs:
             out = mapping[i]
-            value = category_map[i] if isinstance(category_map[i], float) else sympy.symbols(str(category_map[i]))
+            value = category_map[i] if isinstance(category_map[i], float) else sympy.symbols(str(category_map[i]).replace(' ', '\_'))
             conditions.append((out, sympy.Eq(x, value)))
         return sympy.Piecewise(*conditions, (sympy.nan, True), evaluate=False)
 
