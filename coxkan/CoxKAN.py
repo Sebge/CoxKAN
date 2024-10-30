@@ -1022,7 +1022,7 @@ class CoxKAN(KAN):
 
     def load_ckpt(self, ckpt_path, verbose=True):
         ''' Load model from checkpoint '''
-        state = torch.load(ckpt_path)
+        state = torch.load(ckpt_path, weights_only=False)
         self.load_state_dict(state['state_dict'])
         for k, v in state.items():
             if k != 'state_dict':
